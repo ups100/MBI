@@ -1,0 +1,4 @@
+MBI
+===
+
+BLOSUM algorithm
