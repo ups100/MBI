@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8.9) 
 
 #project name
-project (INZ) 
+project (MBI) 
 
 #look for boost library (required for this project)
 FIND_PACKAGE( Boost COMPONENTS thread random REQUIRED )
@@ -22,5 +22,17 @@ SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 
 #subdirectories
-add_subdirectory(algorithm)
-add_subdirectory(doxygen)
+
+INCLUDE_DIRECTORIES( ${MBI_SOURCE_DIR}/algorithm/include )
+
+
+SET( MBI_SRC
+		${MBI_SOURCE_DIR}/main.cpp
+)
+
+add_executable(mbi ${MBI_SRC})
+
+qt5_use_modules(mbi Core)
+
+
+
