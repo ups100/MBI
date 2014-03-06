@@ -28,6 +28,9 @@ public:
 
     IntType getNmbOfAllPairs();
 
+    const QHash<QPair<SymbolType, SymbolType>, FloatType> *
+    getPairsNumbersNormalized();
+
     class BLOSUMAlgorithmException : public std::runtime_error
     {
     public:
@@ -45,6 +48,7 @@ private:
     void countPairs();
     void countPairsInColumn(IntType col);
     void countAllPairsNmb();
+    void normalize();
 
     bool m_executed;
 
@@ -57,6 +61,7 @@ private:
     //Output
     QHash<QPair<SymbolType, SymbolType>, IntType> m_numberOfPairs;
     IntType m_nmbOfAllPairs;
+    QHash<QPair<SymbolType, SymbolType>, FloatType> m_numberOfPairsNormalized;
 };
 
 #include "BLOSUMAlgorithmImpl.h"

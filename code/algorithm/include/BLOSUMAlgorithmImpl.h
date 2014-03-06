@@ -30,6 +30,13 @@ IntType BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getNmbOfA
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
+const QHash<QPair<SymbolType, SymbolType>, FloatType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getPairsNumbersNormalized()
+{
+    return &m_numberOfPairsNormalized;
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
 void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::addSequence(
         SequenceType* seq)
 {
@@ -54,6 +61,7 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::run()
 {
     countPairs();
     countAllPairsNmb();
+    normalize();
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
@@ -83,6 +91,8 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countPairsIn
     }
 
     QList<SymbolType> keys = numberOfSymbols.keys();
+
+    qSort(keys);
 
     //count pairs and update the table
     for (typename QList<SymbolType>::Iterator it1 = keys.begin();
@@ -114,4 +124,14 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countAllPair
 {
     m_nmbOfAllPairs = m_sequencesSize * m_sequences.size()
             * (m_sequences.size() - 1) / 2;
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::normalize()
+{
+    QList<QPair<SymbolType, SymbolType> > pairs = m_numberOfPairs.keys();
+    for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it = pairs
+            .begin(); it != pairs.end(); ++it) {
+        m_numberOfPairsNormalized[*it] = ((FloatType)m_numberOfPairs[*it])/m_nmbOfAllPairs;
+    }
 }

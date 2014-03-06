@@ -24,10 +24,17 @@ int main(void)
 
     qSort(pairs);
 
-    qDebug()<<alg.getNmbOfAllPairs();
+    qDebug() << alg.getNmbOfAllPairs();
     for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it1 = pairs
             .begin(); it1 != pairs.end(); ++it1) {
-        qDebug() << it1->first << it1->second << " " << (*alg.getPairsNumbers())[*it1];
+        qDebug() << it1->first << it1->second << " "
+                << (*alg.getPairsNumbers())[*it1];
+    }
+
+    for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it1 = pairs
+            .begin(); it1 != pairs.end(); ++it1) {
+        qDebug() << it1->first << it1->second << " "
+                << (*alg.getPairsNumbersNormalized())[*it1];
     }
 
     return 0;
