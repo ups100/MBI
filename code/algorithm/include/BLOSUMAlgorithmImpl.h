@@ -1,4 +1,5 @@
 #include <QObject>
+#include <cmath>
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::BLOSUMAlgorithm()
@@ -9,11 +10,11 @@ BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::BLOSUMAlgorithm()
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::~BLOSUMAlgorithm()
 {
-    foreach(SequenceType* s, m_sequences) {
-        delete s;
-    }
+    foreach(SequenceType* s, m_sequences){
+    delete s;
+}
 
-    m_sequences.clear();
+m_sequences.clear();
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
@@ -34,6 +35,34 @@ const QHash<QPair<SymbolType, SymbolType>, FloatType> *
 BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getPairsNumbersNormalized()
 {
     return &m_numberOfPairsNormalized;
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+QHash<SymbolType, FloatType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getSymbolProbabilities()
+{
+    return &m_symbolProbabilities;
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+QHash<QPair<SymbolType, SymbolType>, FloatType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getLogs()
+{
+    return &m_logs;
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+QHash<QPair<SymbolType, SymbolType>, FloatType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getExpectedFreq()
+{
+    return &m_expectedFrequency;
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+const QHash<QPair<SymbolType, SymbolType>, IntType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getBlosum()
+{
+    return &m_blosum;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
@@ -62,6 +91,10 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::run()
     countPairs();
     countAllPairsNmb();
     normalize();
+    countProbabilities();
+    countExpectedFrequency();
+    countLogs();
+    countBlosum();
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
@@ -111,10 +144,12 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countPairsIn
                 nmbOfPairs = numberOfSymbols[*it1] * numberOfSymbols[*it2];
             }
 
-            if (m_numberOfPairs.contains(pair)) {
-                m_numberOfPairs[pair] += nmbOfPairs;
-            } else {
-                m_numberOfPairs[pair] = nmbOfPairs;
+            if (nmbOfPairs) {
+                if (m_numberOfPairs.contains(pair)) {
+                    m_numberOfPairs[pair] += nmbOfPairs;
+                } else {
+                    m_numberOfPairs[pair] = nmbOfPairs;
+                }
             }
         }
 }
@@ -132,6 +167,82 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::normalize()
     QList<QPair<SymbolType, SymbolType> > pairs = m_numberOfPairs.keys();
     for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it = pairs
             .begin(); it != pairs.end(); ++it) {
-        m_numberOfPairsNormalized[*it] = ((FloatType)m_numberOfPairs[*it])/m_nmbOfAllPairs;
+        m_numberOfPairsNormalized[*it] = ((FloatType) m_numberOfPairs[*it])
+                / m_nmbOfAllPairs;
+    }
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countProbabilities()
+{
+    QVector<SymbolType> symbols = QVector<SymbolType>::fromList(
+            m_symbolSet.values());
+    /* Sort the symbols */
+    qSort(symbols);
+
+    for (int i = 0; i < symbols.size(); ++i) {
+        SymbolType s1 = symbols[i];
+        // both symbols the same (Qii)
+        QPair<SymbolType, SymbolType> pair = qMakePair(s1, s1);
+        m_symbolProbabilities[s1] = m_numberOfPairsNormalized[pair];
+
+        // different symbols (Qij) (j < i)
+        for (int j = 0; j < i; ++j) {
+            pair = qMakePair(symbols[j], s1);
+            m_symbolProbabilities[s1] += m_numberOfPairsNormalized[pair] / 2;
+        }
+
+        //different symbols (Qij) (j > i)
+        for (int j = i + 1; j < symbols.size(); ++j) {
+            pair = qMakePair(s1, symbols[j]);
+            m_symbolProbabilities[s1] += m_numberOfPairsNormalized[pair] / 2;
+        }
+    }
+
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countExpectedFrequency()
+{
+    QVector<QPair<SymbolType, SymbolType> > pairs = QVector<
+            QPair<SymbolType, SymbolType> >::fromList(m_numberOfPairs.keys());
+    for (int i = 0; i < pairs.size(); ++i) {
+        QPair<SymbolType, SymbolType> pair = pairs[i];
+        m_expectedFrequency[pair] = (pair.first == pair.second ? 1 : 2)
+                * m_symbolProbabilities[pair.first]
+                * m_symbolProbabilities[pair.second];
+    }
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countLogs()
+{
+    QVector<QPair<SymbolType, SymbolType> > pairs = QVector<
+            QPair<SymbolType, SymbolType> >::fromList(
+            m_expectedFrequency.keys());
+    for (int i = 0; i < pairs.size(); ++i) {
+        QPair<SymbolType, SymbolType> pair = pairs[i];
+        m_logs[pair] = log2(
+                m_numberOfPairsNormalized[pair] / m_expectedFrequency[pair]);
+    }
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+FloatType BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::log2(
+        FloatType x)
+{
+    static FloatType logof2 = log((FloatType) 2.0);
+
+    return log(x) / logof2;
+}
+
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countBlosum()
+{
+    QVector<QPair<SymbolType, SymbolType> > pairs = QVector<
+            QPair<SymbolType, SymbolType> >::fromList(m_logs.keys());
+    for (int i = 0; i < pairs.size(); ++i) {
+        QPair<SymbolType, SymbolType> pair = pairs[i];
+        m_blosum[pair] = (IntType) (2 * m_logs[pair] + 0.5);
     }
 }

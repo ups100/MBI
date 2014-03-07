@@ -31,6 +31,15 @@ public:
     const QHash<QPair<SymbolType, SymbolType>, FloatType> *
     getPairsNumbersNormalized();
 
+    QHash<SymbolType, FloatType> *getSymbolProbabilities();
+
+    QHash<QPair<SymbolType, SymbolType>, FloatType> *getExpectedFreq();
+
+    QHash<QPair<SymbolType, SymbolType>, FloatType> *getLogs();
+
+    const QHash<QPair<SymbolType, SymbolType>, IntType> *
+        getBlosum();
+
     class BLOSUMAlgorithmException : public std::runtime_error
     {
     public:
@@ -49,6 +58,12 @@ private:
     void countPairsInColumn(IntType col);
     void countAllPairsNmb();
     void normalize();
+    void countProbabilities();
+    void countExpectedFrequency();
+    void countLogs();
+    void countBlosum();
+
+    FloatType log2(FloatType x);
 
     bool m_executed;
 
@@ -62,6 +77,10 @@ private:
     QHash<QPair<SymbolType, SymbolType>, IntType> m_numberOfPairs;
     IntType m_nmbOfAllPairs;
     QHash<QPair<SymbolType, SymbolType>, FloatType> m_numberOfPairsNormalized;
+    QHash<SymbolType, FloatType> m_symbolProbabilities;
+    QHash<QPair<SymbolType, SymbolType>, FloatType> m_expectedFrequency;
+    QHash<QPair<SymbolType, SymbolType>, FloatType> m_logs;
+    QHash<QPair<SymbolType, SymbolType>, IntType> m_blosum;
 };
 
 #include "BLOSUMAlgorithmImpl.h"
