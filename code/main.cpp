@@ -3,6 +3,8 @@
 #include <QList>
 #include <QDebug>
 
+using namespace MBI_project::Algorithm;
+
 typedef char SymbolType;
 typedef QByteArray SequenceType;
 typedef int IntType;

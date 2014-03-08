@@ -1,8 +1,12 @@
 #include <QObject>
 #include <cmath>
 
+namespace MBI_project {
+namespace Algorithm {
+
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::BLOSUMAlgorithm()
+        : m_executed(false)
 {
 
 }
@@ -10,65 +14,83 @@ BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::BLOSUMAlgorithm()
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::~BLOSUMAlgorithm()
 {
-    foreach(SequenceType* s, m_sequences){
-    delete s;
+    clear();
 }
 
-m_sequences.clear();
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::clear()
+{
+    foreach(SequenceType* s, m_sequences){
+        delete s;
+    }
+
+    m_sequences.clear();
+    m_symbolSet.clear();
+    m_numberOfPairs.clear();
+    m_numberOfPairsNormalized.clear();
+    m_symbolProbabilities.clear();
+    m_expectedFrequency.clear();
+    m_logs.clear();
+    m_blosum.clear();
+
+    m_executed = false;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 const QHash<QPair<SymbolType, SymbolType>, IntType> *
-BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getPairsNumbers()
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getPairsNumbers() const
 {
-    return &m_numberOfPairs;
+    return m_executed ? &m_numberOfPairs : NULL;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
-IntType BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getNmbOfAllPairs()
+IntType BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getNmbOfAllPairs() const
 {
-    return m_nmbOfAllPairs;
+    return m_executed ? m_nmbOfAllPairs : -1;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 const QHash<QPair<SymbolType, SymbolType>, FloatType> *
-BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getPairsNumbersNormalized()
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getPairsNumbersNormalized() const
 {
-    return &m_numberOfPairsNormalized;
+    return m_executed ? &m_numberOfPairsNormalized : NULL;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
-QHash<SymbolType, FloatType> *
-BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getSymbolProbabilities()
+const QHash<SymbolType, FloatType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getSymbolProbabilities() const
 {
-    return &m_symbolProbabilities;
+    return m_executed ? &m_symbolProbabilities : NULL;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
-QHash<QPair<SymbolType, SymbolType>, FloatType> *
-BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getLogs()
+const QHash<QPair<SymbolType, SymbolType>, FloatType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getLogs() const
 {
-    return &m_logs;
+    return m_executed ? &m_logs : NULL;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
-QHash<QPair<SymbolType, SymbolType>, FloatType> *
-BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getExpectedFreq()
+const QHash<QPair<SymbolType, SymbolType>, FloatType> *
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getExpectedFreq() const
 {
-    return &m_expectedFrequency;
+    return m_executed ? &m_expectedFrequency : NULL;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 const QHash<QPair<SymbolType, SymbolType>, IntType> *
-BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getBlosum()
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getBlosum() const
 {
-    return &m_blosum;
+    return m_executed ? &m_blosum : NULL;
 }
 
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::addSequence(
         SequenceType* seq)
 {
+    if (m_executed)
+        throw BLOSUMAlgorithmException("Unable to add sequence to executed algorithm");
+
     // All sequences should be same size
     IntType size = seq->size();
     if (m_sequences.empty()) {
@@ -88,6 +110,11 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::addSequence(
 template<class SymbolType, class SequenceType, class IntType, class FloatType>
 void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::run()
 {
+    if (m_executed)
+        throw BLOSUMAlgorithmException("Already executed");
+    else
+        m_executed = true;
+
     countPairs();
     countAllPairsNmb();
     normalize();
@@ -246,3 +273,6 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countBlosum(
         m_blosum[pair] = (IntType) (2 * m_logs[pair] + 0.5);
     }
 }
+
+} // namespace Algorithm
+} // namespace MBI_project
