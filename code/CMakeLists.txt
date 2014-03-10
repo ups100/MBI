@@ -30,6 +30,9 @@ SET( MBI_SRC
 		${MBI_SOURCE_DIR}/main.cpp
 )
 
+#subdirectory with tests
+add_subdirectory(tests)
+
 add_executable(mbi ${MBI_SRC})
 
 qt5_use_modules(mbi Core)
