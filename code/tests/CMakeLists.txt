@@ -12,6 +12,7 @@ INCLUDE_DIRECTORIES(    ${QT_INCLUDES}
 SET( GTEST_SRC
        ${MBI_SOURCE_DIR}/tests/src/main.cpp
        ${MBI_SOURCE_DIR}/tests/src/BLOSUMAlgorithmTest.cpp
+       ${MBI_SOURCE_DIR}/tests/src/TestCaseRepresentation.cpp
 )
 
 add_executable( test ${GTEST_SRC} )

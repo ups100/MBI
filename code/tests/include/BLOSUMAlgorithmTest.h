@@ -3,9 +3,13 @@
 
 #include <gtest/gtest.h>
 #include "BLOSUMAlgorithm.h"
+#include "TestCaseRepresentation.h"
 #include <QDebug>
 #include <QList>
 #include <QByteArray>
+#include <QDir>
+#include <QDirIterator>
+#include <QFileInfo>
 namespace MBI_project {
 namespace Tests {
 
@@ -21,9 +25,9 @@ protected:
   virtual void SetUp();
   virtual void TearDown(); 
 
-  static BLOSUMAlgorithm<char, QByteArray, int, float>* alg_;
+  static QList<BLOSUMAlgorithm<char, QByteArray, int, float>*> alg_;
+  static QList<TestCaseRepresentation*> tests_;
   
-private:
 };
 
 }

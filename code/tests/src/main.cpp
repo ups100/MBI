@@ -2,7 +2,6 @@
 #include "Tests.h"
 using namespace MBI_project::Tests;
 
-
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);

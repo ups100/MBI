@@ -7,7 +7,7 @@ using namespace MBI_project::Algorithm;
 namespace MBI_project{
 namespace Algorithm{
 
-TEST_F(BLOSUMAlgorithmTest, SequenceLengthCheck)
+TEST(BLOSUMSimpleTest, SequenceLengthCheck)
 {
   BLOSUMAlgorithm<char, QByteArray, int, float> alg;
 
@@ -18,35 +18,15 @@ TEST_F(BLOSUMAlgorithmTest, SequenceLengthCheck)
   ASSERT_NO_THROW(alg.addSequence(new QByteArray("TOM")));
 }
 
-TEST_F(BLOSUMAlgorithmTest, CountPairsTest)
+TEST_F(BLOSUMAlgorithmTest, MainTest)
 {
-  ASSERT_FLOAT_EQ(alg_->getNmbOfAllPairs(), 30); 
+  ASSERT_EQ(tests_.size(), alg_.size());
+  for(int i = 0; i < tests_.size(); ++i) {
+    alg_[i]->getBlosum();
+    tests_[i]->check(alg_[i]->getBlosum());
+  }
 }
 
-TEST_F(BLOSUMAlgorithmTest, CountAllPairsNmbTest)
-{
-  //TODO
-}
-
-TEST_F(BLOSUMAlgorithmTest, normalizeTest)
-{
-  //TODO
-}
-
-TEST_F(BLOSUMAlgorithmTest, CountProbabilitiesTest)
-{
-  //TODO
-}
-
-TEST_F(BLOSUMAlgorithmTest, CountExpectedFrequency)
-{
-  //TODO
-}
-
-TEST_F(BLOSUMAlgorithmTest, CountBlosum)
-{
-  //TODO
-}
 
 }
 }
