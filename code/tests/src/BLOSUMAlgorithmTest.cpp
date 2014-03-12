@@ -16,7 +16,7 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
 
    while (dirIt.hasNext()) {
      dirIt.next();
-     if (QFileInfo(dirIt.filePath()).isFile())
+     if (QFileInfo(dirIt.filePath()).isFile()) {
        if (QFileInfo(dirIt.filePath()).suffix() == "mbi") {
          BLOSUMAlgorithm<char, QByteArray, int, float> *alg = new BLOSUMAlgorithm<char,QByteArray,int,float>;
          
@@ -40,23 +40,18 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
          alg_.append(alg);
          tests_.append(test);         
        }
-}
+    }  
+  }
+  
+  QList<BLOSUMAlgorithm<char, QByteArray, int, float>*>::iterator it;
+  for(it = alg_.begin(); it != alg_.end(); ++it)
+    (*it)->run();
 }
 
 void BLOSUMAlgorithmTest::TearDownTestCase() {
   alg_.clear();
   tests_.clear();
 }
-
-void BLOSUMAlgorithmTest::SetUp() {
-  QList<BLOSUMAlgorithm<char,QByteArray,int,float>*>::iterator it;
-  for(it = alg_.begin(); it != alg_.end(); ++it)
-    (*it)->run();
-}
-
-void BLOSUMAlgorithmTest::TearDown() {
-}
-
 
 }
 }

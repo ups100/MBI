@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "Tests.h"
+#include "UnitTests.h"
 using namespace MBI_project::Tests;
 
 int main(int argc, char **argv)

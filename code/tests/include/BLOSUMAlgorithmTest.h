@@ -22,9 +22,6 @@ protected:
   static void SetUpTestCase(); 
   static void TearDownTestCase(); 
 
-  virtual void SetUp();
-  virtual void TearDown(); 
-
   static QList<BLOSUMAlgorithm<char, QByteArray, int, float>*> alg_;
   static QList<TestCaseRepresentation*> tests_;
   

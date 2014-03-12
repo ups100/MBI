@@ -4,29 +4,36 @@
 #include <QPair>
 using namespace MBI_project::Tests;
 using namespace MBI_project::Algorithm;
-namespace MBI_project{
-namespace Algorithm{
+namespace MBI_project {
+namespace Tests   {
 
-TEST(BLOSUMSimpleTest, SequenceLengthCheck)
-{
-  BLOSUMAlgorithm<char, QByteArray, int, float> alg;
-
-  ASSERT_NO_THROW(alg.addSequence(new QByteArray("ALA")));
-
-  ASSERT_ANY_THROW(alg.addSequence(new QByteArray("ABCD")));
-
-  ASSERT_NO_THROW(alg.addSequence(new QByteArray("TOM")));
-}
-
-TEST_F(BLOSUMAlgorithmTest, MainTest)
+TEST_F(BLOSUMAlgorithmTest, ProvidedPairsTest)
 {
   ASSERT_EQ(tests_.size(), alg_.size());
   for(int i = 0; i < tests_.size(); ++i) {
-    alg_[i]->getBlosum();
     tests_[i]->check(alg_[i]->getBlosum());
   }
 }
 
+TEST_F(BLOSUMAlgorithmTest, NormalizationTest)
+{
+  for(int i = 0; i < alg_.size(); ++i) {
+  
+    BLOSUMAlgorithm<char, QByteArray, int, float> *alg = alg_[i];
+
+    QList<QPair<char, char> > pairs = alg->getPairsNumbers()->keys();
+
+    qSort(pairs);
+
+    QList<QPair<char, char> >::Iterator it;
+
+    for(it = pairs.begin(); it != pairs.end(); ++it) {
+      ASSERT_NEAR(((float)((*alg->getPairsNumbers())[*it])
+        / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
+        [*it]), 0.01);
+    }
+  }
+}
 
 }
 }
