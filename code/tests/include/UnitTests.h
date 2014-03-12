@@ -9,7 +9,7 @@ namespace Tests {
 
 TEST(BLOSUMSimpleTests, SequenceLengthTest) 
 {
-  BLOSUMAlgorithm<char,QByteArray,int,float> alg;
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
   
   ASSERT_NO_THROW(alg.addSequence(new QByteArray("ALA")));
   ASSERT_ANY_THROW(alg.addSequence(new QByteArray("ABCD")));
@@ -18,20 +18,21 @@ TEST(BLOSUMSimpleTests, SequenceLengthTest)
 
 TEST(BLOSUMSimpleTests, SameTestRunTest)
 {
-  BLOSUMAlgorithm<char,QByteArray,int,float> alg;
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
 
   alg.addSequence(new QByteArray("ABCD"));
   alg.addSequence(new QByteArray("BCDA"));
   alg.addSequence(new QByteArray("CDBA"));
 
   ASSERT_NO_THROW(alg.run());
+
   ASSERT_ANY_THROW(alg.run());
 }
 
 
 TEST(BLOSUMSimpleTests, GetResultBeforeRunTest)
 {
-  BLOSUMAlgorithm<char,QByteArray,int,float> alg;
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
   
   alg.addSequence(new QByteArray("ALA"));
 
@@ -46,7 +47,7 @@ TEST(BLOSUMSimpleTests, GetResultBeforeRunTest)
 
 TEST(BLOSUMSimpleTests, NoSequencesTest)
 {
-  BLOSUMAlgorithm<char,QByteArray,int,float> alg;
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
   
   ASSERT_ANY_THROW(alg.run());
 
@@ -67,7 +68,7 @@ TEST(BLOSUMSimpleTests, NoSequencesTest)
 
 TEST(BLOSUMSimpleTests, WithSequencesTest)
 {
-  BLOSUMAlgorithm<char,QByteArray,int,float> alg;
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
  
   alg.addSequence(new QByteArray("ALA"));
 
@@ -90,7 +91,7 @@ TEST(BLOSUMSimpleTests, WithSequencesTest)
 
 TEST(BLOSUMSimpleTests, ReusabilityTest) 
 {
-  BLOSUMAlgorithm<char,QByteArray,int,float> alg;
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
   
   alg.addSequence(new QByteArray("AAA"));
   alg.addSequence(new QByteArray("ABA"));
@@ -106,25 +107,9 @@ TEST(BLOSUMSimpleTests, ReusabilityTest)
   ASSERT_NO_THROW(alg.run()); 
 }
 
-TEST(BLOSUMSimpleTests, InputDataFormatTest)
+BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>*  getInstanceForTests()
 {
-  BLOSUMAlgorithm<char,QByteArray,int,float> alg;
-  
-  ASSERT_ANY_THROW(alg.addSequence(new QByteArray("123")));
-
-  ASSERT_ANY_THROW(alg.addSequence(new QByteArray("ab12")));
-
-  ASSERT_ANY_THROW(alg.addSequence(new QByteArray("")));
- 
-  ASSERT_ANY_THROW(alg.addSequence(new QByteArray(";33a")));
-  
-  ASSERT_ANY_THROW(alg.addSequence(new QByteArray("ABCD1")));
-}
-
-
-BLOSUMAlgorithm<char,QByteArray,int,float>*  getInstanceForTests()
-{
-  BLOSUMAlgorithm<char,QByteArray,int,float>* alg = new BLOSUMAlgorithm<char,QByteArray,int,float>;
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>* alg = new BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>;
 
   alg->addSequence(new QByteArray("CCAAABAC"));
   alg->addSequence(new QByteArray("CCAABBAB"));
@@ -135,12 +120,12 @@ BLOSUMAlgorithm<char,QByteArray,int,float>*  getInstanceForTests()
 
   alg->run();
 
-  delete alg;
+  return alg;
 }
 
 TEST(BLOSUMExampleTests, NumberOfPairsTest)
 {
-  BLOSUMAlgorithm<char, QByteArray, int, float> *alg = getInstanceForTests();
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
   ASSERT_EQ(alg->getNmbOfAllPairs(),120);
 
@@ -161,7 +146,7 @@ TEST(BLOSUMExampleTests, NumberOfPairsTest)
 
 TEST(BLOSUMExampleTests, NumberOfPairsNormalizedTest)
 {
-  BLOSUMAlgorithm<char, QByteArray, int, float> *alg = getInstanceForTests();
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
   ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('A','A')], 0.216, 0.01);
 
@@ -181,7 +166,7 @@ TEST(BLOSUMExampleTests, NumberOfPairsNormalizedTest)
 
 TEST(BLOSUMExampleTests, NormalizationTest)
 {
-  BLOSUMAlgorithm<char, QByteArray, int, float> *alg = getInstanceForTests();
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
   ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('A','A')])
     / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
@@ -212,7 +197,7 @@ TEST(BLOSUMExampleTests, NormalizationTest)
 
 TEST(BLOSUMExampleTests, SymbolsProbabilitiesTest)
 {
-  BLOSUMAlgorithm<char, QByteArray, int, float> *alg = getInstanceForTests();
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
   ASSERT_NEAR((*alg->getSymbolProbabilities())['A'], 0.291, 0.01);
 
@@ -225,7 +210,7 @@ TEST(BLOSUMExampleTests, SymbolsProbabilitiesTest)
 
 TEST(BLOSUMExampleTests, FinalBlosumTest)
 {
-  BLOSUMAlgorithm<char, QByteArray, int, float> *alg = getInstanceForTests();
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
   ASSERT_EQ((*alg->getBlosum())[qMakePair('A','A')], 3);
 

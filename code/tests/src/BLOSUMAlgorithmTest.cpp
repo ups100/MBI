@@ -4,7 +4,7 @@ namespace MBI_project {
 namespace Tests {
 using namespace MBI_project::Algorithm;
 
-QList<BLOSUMAlgorithm<char, QByteArray, int, float>*> BLOSUMAlgorithmTest::alg_ = QList<BLOSUMAlgorithm<char, QByteArray, int, float>*>();
+QList<BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>*> BLOSUMAlgorithmTest::alg_ = QList<BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>*>();
 QList<TestCaseRepresentation*> BLOSUMAlgorithmTest::tests_ = QList<TestCaseRepresentation*>();
 
 
@@ -18,7 +18,7 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
      dirIt.next();
      if (QFileInfo(dirIt.filePath()).isFile()) {
        if (QFileInfo(dirIt.filePath()).suffix() == "mbi") {
-         BLOSUMAlgorithm<char, QByteArray, int, float> *alg = new BLOSUMAlgorithm<char,QByteArray,int,float>;
+         BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = new BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>;
          
          TestCaseRepresentation *test = new TestCaseRepresentation;
 
@@ -43,7 +43,7 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
     }  
   }
   
-  QList<BLOSUMAlgorithm<char, QByteArray, int, float>*>::iterator it;
+  QList<BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>*>::iterator it;
   for(it = alg_.begin(); it != alg_.end(); ++it)
     (*it)->run();
 }

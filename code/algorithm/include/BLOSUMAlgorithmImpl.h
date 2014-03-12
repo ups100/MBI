@@ -1,5 +1,4 @@
 #include <QObject>
-#include <QRegExp>
 #include <cmath>
 
 namespace MBI_project {
@@ -92,10 +91,6 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::addSequence(
     if (m_executed)
         throw BLOSUMAlgorithmException("Unable to add sequence to executed algorithm");
 
-    QRegExp regExp("^[A-Z]+");
-    if (!regExp.exactMatch(QString(*seq)))
-        throw BLOSUMAlgorithmException("Only letters available");
-     
     // All sequences should be same size
     IntType size = seq->size();
     if (m_sequences.empty()) {
