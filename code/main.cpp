@@ -49,6 +49,10 @@ int main(void)
         qDebug() << *it1 << " " << (*alg.getSymbolProbabilities())[*it1];
     }
 
+    qDebug()<<"MOJE";
+    for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it1 = pairs
+            .begin(); it1 != pairs.end(); ++it1) {
+        qDebug() << it1->first << it1->second << " " << (*alg.getLogs())[*it1]; }
     for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it1 = pairs
             .begin(); it1 != pairs.end(); ++it1) {
         qDebug() << it1->first << it1->second << " "
