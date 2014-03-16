@@ -10,7 +10,7 @@ QList<TestCaseRepresentation*> BLOSUMAlgorithmTest::tests_ = QList<TestCaseRepre
 
 void BLOSUMAlgorithmTest::SetUpTestCase() {
 
-   QRegExp regExp("^[A-Za-z]{2}=[0-9]{1}$");
+   QRegExp regExp("^[A-Za-z]{2}=.*$");
 
    QDirIterator dirIt(QDir::current(),QDirIterator::Subdirectories);
 
@@ -24,8 +24,8 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
 
        	 QFile file(dirIt.filePath());
          if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-           return; 
-         
+           continue; 
+	
          QByteArray data = file.readAll();
          QList<QByteArray> list = data.split(';');
          QList<QByteArray>::iterator i;
@@ -34,9 +34,10 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
              continue;
            if(regExp.exactMatch(*i))
              test->addExpectedResult(*i);
-           else
+           else {
              alg->addSequence(new QByteArray(*i));
-         }
+	   }             
+ 	 }
          alg_.append(alg);
          tests_.append(test);         
        }

@@ -51,7 +51,7 @@ private:
    * that are used to compare with actual results
    * from algorithm
    */
-  QHash<QPair<SymbolType, SymbolType>, IntType> *m_blosum;	
+  QHash<QPair<SymbolType, SymbolType>, FloatType> *m_blosum;	
 
 };
 
