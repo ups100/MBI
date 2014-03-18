@@ -3,6 +3,12 @@
 #include <QList>
 #include <QDebug>
 
+//Quick remove typename keyword from this file in Visual Studio
+// this compiler complains that this is bad usage of this keyword
+#ifdef WIN32
+	#define typename
+#endif
+
 using namespace MBI_project::Algorithm;
 
 typedef char SymbolType;
