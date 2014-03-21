@@ -48,4 +48,4 @@ if (NOT WIN32)
 		pthread )
 endif()
 
-qt5_use_modules(test Core)
+qt5_use_modules(test Core Widgets)

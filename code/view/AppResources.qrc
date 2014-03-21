@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/dna_helix.jpg</file>
+        <file>images/dnaWiki.png</file>
+    </qresource>
+</RCC>

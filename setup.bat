@@ -2,8 +2,8 @@
 
 if not exist build (
 	mkdir build
-	mkdir build/lib
-	mkdir build/bin
+	mkdir build\lib
+	mkdir build\bin
 )
 cd build
 

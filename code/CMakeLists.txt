@@ -17,6 +17,7 @@ FIND_PACKAGE( Boost COMPONENTS thread random REQUIRED )
 
 #look for qt library (required for this project)
 find_package(Qt5Core REQUIRED )
+find_package(Qt5Widgets REQUIRED )
 
 #look for doxygen to make documentation
 find_package(Doxygen REQUIRED)
@@ -41,10 +42,11 @@ SET( MBI_SRC
 
 #subdirectory with tests
 add_subdirectory(tests)
+add_subdirectory(view)
 
 add_executable(mbi ${MBI_SRC})
 
-qt5_use_modules(mbi Core)
+qt5_use_modules(mbi Core Widgets)
 
 
 
