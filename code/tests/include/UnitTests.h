@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "BLOSUMAlgorithm.h"
 #define FLOAT_PRECISION 0.01
+
 using namespace MBI_project::Tests;
 using namespace MBI_project::Algorithm;
 
@@ -111,40 +112,43 @@ BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>*  getInstanceForTe
 {
   BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>* alg = new BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>;
 
-  alg->addSequence(new QByteArray("AAI"));
-  alg->addSequence(new QByteArray("SAL"));
-  alg->addSequence(new QByteArray("TAL"));
-  alg->addSequence(new QByteArray("TAV"));
-  alg->addSequence(new QByteArray("AAL"));
+  alg->addSequence(new QByteArray("CCAAABAC"));
+  alg->addSequence(new QByteArray("CCAABBAB"));
+  alg->addSequence(new QByteArray("BBCACBAB"));
+  alg->addSequence(new QByteArray("CBCACBAB"));
+  alg->addSequence(new QByteArray("CCCABBAB"));
+  alg->addSequence(new QByteArray("CCCBBBAB"));
+  
 
   alg->run();
 
   return alg;
 }
 
+TEST(BLOSUMExampleTests, NumberOfAllPairsTest)
+{
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
+  
+  ASSERT_EQ(alg->getNmbOfAllPairs(), 120);
+  
+  delete alg; 
+}
+
 TEST(BLOSUMExampleTests, NumberOfPairsTest)
 {
   BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
-  ASSERT_EQ(alg->getNmbOfAllPairs(), 30);
+  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('A','A')], 26);  
 
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('A','A')], 11);  
-
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('A','S')], 2);
+  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('A','B')], 8);
   
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('A','T')], 4);
+  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('A','C')], 10);
 
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('I','L')], 3);
+  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('B','B')], 29);
 
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('I','V')], 1);
+  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('B','C')], 24);
 
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('L','L')], 3);
-
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('L','V')], 3);
-
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('S','T')], 2);
-
-  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('T','T')], 1); 
+  ASSERT_EQ((*alg->getPairsNumbers())[qMakePair('C','C')], 23);
 
   delete alg;
 }
@@ -153,23 +157,17 @@ TEST(BLOSUMExampleTests, NumberOfPairsNormalizedTest)
 {
   BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('A','A')], 0.367, FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('A','A')], 0.217, FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('A','S')], 0.067, FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('A','B')], 0.067, FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('A','T')], 0.133, FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('A','C')], 0.083, FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('I','L')], 0.1,   FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('B','B')], 0.241, FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('I','V')], 0.033, FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('B','C')], 0.200, FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('L','L')], 0.1,   FLOAT_PRECISION);
-
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('L','V')], 0.1,   FLOAT_PRECISION);
-
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('S','T')], 0.067, FLOAT_PRECISION);
-
-  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('T','T')], 0.033, FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getPairsNumbersNormalized())[qMakePair('C','C')], 0.191, FLOAT_PRECISION);
 
   delete alg;
 }
@@ -181,39 +179,27 @@ TEST(BLOSUMExampleTests, NormalizationTest)
 
   ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('A','A')])
     / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('A','A')]), 0.01);
+    [qMakePair('A','A')]), FLOAT_PRECISION);
 
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('A','S')])
+  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('A','B')])
     / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('A','S')]), FLOAT_PRECISION);
+    [qMakePair('A','B')]), FLOAT_PRECISION);
 
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('A','T')])
+  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('A','C')])
     / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('A','T')]), FLOAT_PRECISION);
+    [qMakePair('A','C')]), FLOAT_PRECISION);
 
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('I','L')])
+  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('B','B')])
     / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('I','L')]), FLOAT_PRECISION);
+    [qMakePair('B','B')]), FLOAT_PRECISION);
 
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('I','V')])
+  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('B','C')])
     / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('I','V')]), FLOAT_PRECISION);
+    [qMakePair('B','C')]), FLOAT_PRECISION);
 
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('L','L')])
+  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('C','C')])
     / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('L','L')]), FLOAT_PRECISION);
-
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('L','V')])
-    / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('L','V')]), FLOAT_PRECISION);
-
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('S','T')])
-    / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('S','T')]), FLOAT_PRECISION);
-
-  ASSERT_NEAR(((float)((*alg->getPairsNumbers())[qMakePair('T','T')])
-    / alg->getNmbOfAllPairs()),((*alg->getPairsNumbersNormalized())
-    [qMakePair('T','T')]), FLOAT_PRECISION);
+    [qMakePair('C','C')]), FLOAT_PRECISION);
 
   delete alg;
 }
@@ -222,18 +208,31 @@ TEST(BLOSUMExampleTests, SymbolsProbabilitiesTest)
 {
   BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
-  ASSERT_NEAR((*alg->getSymbolProbabilities())['A'], 0.467, FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getSymbolProbabilities())['A'], 0.291, FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getSymbolProbabilities())['I'], 0.067, FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getSymbolProbabilities())['B'], 0.375, FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getSymbolProbabilities())['L'], 0.2,   FLOAT_PRECISION);
+  ASSERT_NEAR((*alg->getSymbolProbabilities())['C'], 0.333,   FLOAT_PRECISION);
 
-  ASSERT_NEAR((*alg->getSymbolProbabilities())['S'], 0.067, FLOAT_PRECISION);
+  delete alg;
+}
 
-  ASSERT_NEAR((*alg->getSymbolProbabilities())['T'], 0.133, FLOAT_PRECISION);
- 
-  ASSERT_NEAR((*alg->getSymbolProbabilities())['V'], 0.067, FLOAT_PRECISION);
+TEST(BLOSUMExampleTests, LogarithmTests)
+{
+  BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
+  
+  ASSERT_NEAR((*alg->getLogs())[qMakePair('A','A')], 1.348,  FLOAT_PRECISION);
 
+  ASSERT_NEAR((*alg->getLogs())[qMakePair('A','B')], -1.714, FLOAT_PRECISION);
+
+  ASSERT_NEAR((*alg->getLogs())[qMakePair('A','C')], -1.222, FLOAT_PRECISION);
+
+  ASSERT_NEAR((*alg->getLogs())[qMakePair('B','B')], 0.781,  FLOAT_PRECISION);
+
+  ASSERT_NEAR((*alg->getLogs())[qMakePair('B','C')], -0.322, FLOAT_PRECISION);
+
+  ASSERT_NEAR((*alg->getLogs())[qMakePair('C','C')], 0.786,  FLOAT_PRECISION);
+  
   delete alg;
 }
 
@@ -241,23 +240,17 @@ TEST(BLOSUMExampleTests, FinalBlosumTest)
 {
   BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> *alg = getInstanceForTests();
 
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('A','A')], 2);
+  ASSERT_EQ((*alg->getBlosum())[qMakePair('A','A')],  3);
 
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('A','S')], 0);
+  ASSERT_EQ((*alg->getBlosum())[qMakePair('A','B')], -3);
 
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('A','T')], 0);
+  ASSERT_EQ((*alg->getBlosum())[qMakePair('A','C')], -2);
 
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('I','L')], 4);
+  ASSERT_EQ((*alg->getBlosum())[qMakePair('B','B')],  2);
 
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('I','V')], 4);
+  ASSERT_EQ((*alg->getBlosum())[qMakePair('B','C')], -1);
 
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('L','L')], 3);
-
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('L','V')], 4);
-
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('S','T')], 4);
-
-  ASSERT_EQ((*alg->getBlosum())[qMakePair('T','T')], 2);
+  ASSERT_EQ((*alg->getBlosum())[qMakePair('C','C')],  2);
 
   delete alg;
 }

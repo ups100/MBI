@@ -272,7 +272,7 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countBlosum(
             QPair<SymbolType, SymbolType> >::fromList(m_logs.keys());
     for (int i = 0; i < pairs.size(); ++i) {
         QPair<SymbolType, SymbolType> pair = pairs[i];
-        m_blosum[pair] = (IntType) (2 * m_logs[pair] + 0.5);
+        m_blosum[pair] = (IntType) (2 * m_logs[pair]  + 0.5 * ((m_logs[pair] > 0 ? 1 : -1)));
     }
 }
 

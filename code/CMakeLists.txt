@@ -15,6 +15,9 @@ endif()
 #look for boost library (required for this project)
 FIND_PACKAGE( Boost COMPONENTS thread random REQUIRED )
 
+#look for libGL.so (necessary for QtWidgets)
+FIND_PACKAGE(OpenGL REQUIRED)
+
 #look for qt library (required for this project)
 find_package(Qt5Core REQUIRED )
 find_package(Qt5Widgets REQUIRED )
