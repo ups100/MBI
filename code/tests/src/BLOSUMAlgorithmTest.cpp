@@ -27,16 +27,16 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
            continue; 
 	
          QByteArray data = file.readAll();
+         data = data.simplified();
          QList<QByteArray> list = data.split(';');
          QList<QByteArray>::iterator i;
          for (i = list.begin(); i != list.end(); ++i) {
            if((*i).size() <= 1) 
              continue;
            if(regExp.exactMatch(*i))
-             test->addExpectedResult(*i);
-           else {
+             test->addExpectedResult(*i); 
+           else 
              alg->addSequence(new QByteArray(*i));
-	   }             
  	 }
          alg_.append(alg);
          tests_.append(test);         

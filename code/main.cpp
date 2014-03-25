@@ -20,12 +20,9 @@ int main(void)
 {
     BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
 
-    alg.addSequence(new QByteArray("CCAAABAC"));
-    alg.addSequence(new QByteArray("CCAABBAB"));
-    alg.addSequence(new QByteArray("BBCACBAB"));
-    alg.addSequence(new QByteArray("CBCACBAB"));
-    alg.addSequence(new QByteArray("CCCABBAB"));
-    alg.addSequence(new QByteArray("CCCBBBAB"));
+    alg.addSequence(new QByteArray("ARTSCRKSGG"));
+    alg.addSequence(new QByteArray("ARTSCHKSGG"));
+    alg.addSequence(new QByteArray("IHEQIGQGAL"));
 
     alg.run();
 
@@ -55,10 +52,6 @@ int main(void)
         qDebug() << *it1 << " " << (*alg.getSymbolProbabilities())[*it1];
     }
 
-    qDebug()<<"MOJE";
-    for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it1 = pairs
-            .begin(); it1 != pairs.end(); ++it1) {
-        qDebug() << it1->first << it1->second << " " << (*alg.getLogs())[*it1]; }
     for (typename QList<QPair<SymbolType, SymbolType> >::Iterator it1 = pairs
             .begin(); it1 != pairs.end(); ++it1) {
         qDebug() << it1->first << it1->second << " "
