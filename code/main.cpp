@@ -20,9 +20,12 @@ int main(void)
 {
     BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
 
-    alg.addSequence(new QByteArray("ARTSCRKSGG"));
-    alg.addSequence(new QByteArray("ARTSCHKSGG"));
-    alg.addSequence(new QByteArray("IHEQIGQGAL"));
+    alg.addSequence(new QByteArray("CCAAABAC"));
+    alg.addSequence(new QByteArray("CCAABBAB"));
+    alg.addSequence(new QByteArray("BBCACBAB"));
+    alg.addSequence(new QByteArray("CBCACBAB"));
+    alg.addSequence(new QByteArray("CCCABBAB"));
+    alg.addSequence(new QByteArray("CCCBBBAB"));
 
     alg.run();
 
