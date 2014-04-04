@@ -135,6 +135,10 @@ public:
      */
     const QHash<QPair<SymbolType, SymbolType>, IntType> *getBlosum() const;
 
+	/**
+	 * @brief Return number of all unique symbols used in all given sequences.
+	 */
+	int getSymbolsNumber() const;
 
     /**
      * @brief Exception class for this algorithm

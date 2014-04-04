@@ -276,5 +276,11 @@ void BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::countBlosum(
     }
 }
 
+template<class SymbolType, class SequenceType, class IntType, class FloatType>
+int BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>::getSymbolsNumber() const
+{
+	return m_symbolSet.size();
+}
+
 } // namespace Algorithm
 } // namespace MBI_project

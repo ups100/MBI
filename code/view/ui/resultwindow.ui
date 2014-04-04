@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ResultWindow</class>
+ <widget class="QMainWindow" name="ResultWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Results</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="AppResources.qrc">
+    <normaloff>:/images/dnaIcon.png</normaloff>:/images/dnaIcon.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="m_tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuChangeView">
+    <property name="title">
+     <string>Change View</string>
+    </property>
+    <addaction name="actionTable_view"/>
+    <addaction name="actionText_view"/>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionSave_as_CSV"/>
+    <addaction name="actionSave_as_CSV_semicolon"/>
+    <addaction name="actionSave_as_Text"/>
+    <addaction name="separator"/>
+    <addaction name="actionClose"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuChangeView"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="statusTip">
+    <string>Results ready.</string>
+   </property>
+  </widget>
+  <action name="actionTable_view">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Table view</string>
+   </property>
+   <property name="statusTip">
+    <string>Changes visual view of matrix data in table view.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
+   </property>
+  </action>
+  <action name="actionText_view">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Text view</string>
+   </property>
+   <property name="statusTip">
+    <string>Changes visual view of matrix data in text view.</string>
+   </property>
+  </action>
+  <action name="actionSave_as_CSV">
+   <property name="text">
+    <string>Save as CSV (comma)</string>
+   </property>
+   <property name="statusTip">
+    <string>Save active matrix data in file with CSV format (separater by comma sign)</string>
+   </property>
+  </action>
+  <action name="actionSave_as_Text">
+   <property name="text">
+    <string>Save as Text</string>
+   </property>
+   <property name="statusTip">
+    <string>Save active matrix data in file with CSV format (separater by single space sign)</string>
+   </property>
+  </action>
+  <action name="actionSave_as_Text_2">
+   <property name="text">
+    <string>Save as Text</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="statusTip">
+    <string>Quit.</string>
+   </property>
+  </action>
+  <action name="actionSave_as_CSV_semicolon">
+   <property name="text">
+    <string>Save as CSV (semicolon)</string>
+   </property>
+   <property name="statusTip">
+    <string>Save active matrix data in file with CSV format (separater by semicolon sign)</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="AppResources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -17,8 +17,11 @@ find_package(Qt5Widgets REQUIRED )
 qt5_add_resources(UI_RESOURCES AppResources.qrc)
 # compile GUI from QtDesigner .ui files
 qt5_wrap_ui(	UI_HEADERS 
+				${MBI_SOURCE_DIR}/view/ui/infoview.ui
 				${MBI_SOURCE_DIR}/view/ui/mainwindow.ui
+				${MBI_SOURCE_DIR}/view/ui/resultwindow.ui
 				${MBI_SOURCE_DIR}/view/ui/seqinputview.ui
+				${MBI_SOURCE_DIR}/view/ui/tableview.ui
 )
 
 # preparing only path from filepath to UI headers list (orginally contains also file names)
@@ -35,10 +38,20 @@ INCLUDE_DIRECTORIES(	${QT_INCLUDES}
 
 SET( VIEW_SRC
 		${MBI_SOURCE_DIR}/view/src/main.cpp
+		${MBI_SOURCE_DIR}/view/src/infoview.cpp
 		${MBI_SOURCE_DIR}/view/src/mainwindow.cpp
+		${MBI_SOURCE_DIR}/view/src/resultwindow.cpp
 		${MBI_SOURCE_DIR}/view/src/seqinputview.cpp
+		${MBI_SOURCE_DIR}/view/src/tableabstract.cpp
+		${MBI_SOURCE_DIR}/view/src/tableplainview.cpp
+		${MBI_SOURCE_DIR}/view/src/tableview.cpp
+		${MBI_SOURCE_DIR}/view/include/infoview.h
 		${MBI_SOURCE_DIR}/view/include/mainwindow.h
+		${MBI_SOURCE_DIR}/view/include/resultwindow.h
 		${MBI_SOURCE_DIR}/view/include/seqinputview.h
+		${MBI_SOURCE_DIR}/view/include/tableabstract.h
+		${MBI_SOURCE_DIR}/view/include/tableplainview.h
+		${MBI_SOURCE_DIR}/view/include/tableview.h
 )
 
 add_executable( view ${VIEW_SRC} ${UI_RESOURCES} ${UI_HEADERS} )

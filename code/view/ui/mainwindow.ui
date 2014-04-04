@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="AppResources.qrc">
-    <normaloff>:/images/dna_helix.jpg</normaloff>:/images/dna_helix.jpg</iconset>
+    <normaloff>:/images/dnaIcon.png</normaloff>:/images/dnaIcon.png</iconset>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -45,6 +45,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="statusTip">
+           <string>DNA helix</string>
           </property>
           <property name="text">
            <string/>
@@ -74,6 +77,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QPushButton" name="m_pushButt_SeqInput">
+          <property name="statusTip">
+           <string>Import sequences (manually or from external file). Do it before run.</string>
+          </property>
           <property name="text">
            <string>Input Sequence</string>
           </property>
@@ -82,7 +88,10 @@
         <item>
          <widget class="QPushButton" name="m_pushButt_Run">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
+          </property>
+          <property name="statusTip">
+           <string>Start Blosum algorithm calculations. When finished it display results.</string>
           </property>
           <property name="text">
            <string>RUN</string>
@@ -94,13 +103,36 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="statusTip">
+           <string>Clear all calculations (not sequences). Enable next algorithm run.</string>
+          </property>
           <property name="text">
            <string>Clear</string>
           </property>
          </widget>
         </item>
         <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="m_pushButt_Info">
+          <property name="statusTip">
+           <string>Help and authors informations</string>
+          </property>
+          <property name="text">
+           <string>Info</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="m_pushButt_Quit">
+          <property name="statusTip">
+           <string>Close application.</string>
+          </property>
           <property name="text">
            <string>Quit</string>
           </property>
@@ -125,25 +157,11 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>400</width>
-     <height>21</height>
-    </rect>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="statusTip">
+    <string>Ready</string>
    </property>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
