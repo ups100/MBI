@@ -45,8 +45,10 @@ void BLOSUMAlgorithmTest::SetUpTestCase() {
   }
   
   QList<BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType>*>::iterator it;
-  for(it = alg_.begin(); it != alg_.end(); ++it)
+  for(it = alg_.begin(); it != alg_.end(); ++it) {
+    qDebug()<<"JEDZIEMY";
     (*it)->run();
+  }
 }
 
 void BLOSUMAlgorithmTest::TearDownTestCase() {

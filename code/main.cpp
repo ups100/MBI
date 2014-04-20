@@ -20,12 +20,26 @@ int main(void)
 {
     BLOSUMAlgorithm<SymbolType, SequenceType, IntType, FloatType> alg;
 
-    alg.addSequence(new QByteArray("CCAAABAC"));
-    alg.addSequence(new QByteArray("CCAABBAB"));
-    alg.addSequence(new QByteArray("BBCACBAB"));
-    alg.addSequence(new QByteArray("CBCACBAB"));
-    alg.addSequence(new QByteArray("CCCABBAB"));
-    alg.addSequence(new QByteArray("CCCBBBAB"));
+//    alg.addSequence(new QByteArray("CCAAABAC"));
+//    alg.addSequence(new QByteArray("CCAABBAB"));
+//    alg.addSequence(new QByteArray("BBCACBAB"));
+//    alg.addSequence(new QByteArray("CBCACBAB"));
+//    alg.addSequence(new QByteArray("CCCABBAB"));
+//    alg.addSequence(new QByteArray("CCCBBBAB"));
+      alg.addSequence(new QByteArray("MNMSRQGIFQ"));
+      alg.addSequence(new QByteArray("MNTTDCFIAL"));
+      alg.addSequence(new QByteArray("MGAQVSSQKV"));
+      alg.addSequence(new QByteArray("MNDQRKKAKN"));
+      alg.addSequence(new QByteArray("MSGRKAQGKT"));
+      alg.addSequence(new QByteArray("MSKKPGGPGK"));
+      alg.addSequence(new QByteArray("MESLVLGVNE"));
+      alg.addSequence(new QByteArray("MALIFGTVNA"));
+      alg.addSequence(new QByteArray("MELEDGVVYQ"));
+      alg.addSequence(new QByteArray("MESLVLGVNE"));
+      alg.addSequence(new QByteArray("MACNRVTLAV"));
+      alg.addSequence(new QByteArray("MATFSATGFG"));
+      alg.addSequence(new QByteArray("MASSLKQGVS"));
+      alg.addSequence(new QByteArray("MRLRRLALFP"));
 
     alg.run();
 
