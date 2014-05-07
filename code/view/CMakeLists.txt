@@ -54,7 +54,13 @@ SET( VIEW_SRC
 		${MBI_SOURCE_DIR}/view/include/tableview.h
 )
 
-add_executable( view ${VIEW_SRC} ${UI_RESOURCES} ${UI_HEADERS} )
+# This variable is used on Visual Studio to hide console when application is running.
+SET( WIN_NO_CONSOLE "")
+IF (WIN32)
+	SET( WIN_NO_CONSOLE WIN32 )
+ENDIF (WIN32)
+
+add_executable( view ${WIN_NO_CONSOLE} ${VIEW_SRC} ${UI_RESOURCES} ${UI_HEADERS} )
 
 #here add some additional qt modules
 TARGET_LINK_LIBRARIES( view

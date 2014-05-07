@@ -184,11 +184,11 @@ void ResultWindow::saveAs(QString sep)
     if (sep.contains(',') || sep.contains(';'))
         fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                "./untitled.csv",
-                               tr("CSV Files (*.csv); All files (*.*)"));
+                               tr("CSV Files (*.csv);; All files (*.*)"));
     else
         fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                "./untitled.txt",
-                               tr("Text Files (*.txt); All files (*.*)"));
+                               tr("Text Files (*.txt);; All files (*.*)"));
 
     if (fileName.isEmpty()) // no file selected - nothing to do
         return;

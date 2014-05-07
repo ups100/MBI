@@ -7,6 +7,12 @@ SeqInputView::SeqInputView(QWidget *parent) :
     m_esc(tr("Esc"), this)
 {
     ui->setupUi(this);
+	
+	// Monospace font set into sequence editor and list widgets
+    QFont font("Monospace");
+    font.setStyleHint(QFont::TypeWriter);
+    ui->m_listWidget->setFont(font);
+    ui->m_lineInsert->setFont(font);
 
     // Double click on any list item should make it editable
     connect(ui->m_listWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_m_pushButt_Edit_clicked()));
@@ -78,7 +84,7 @@ void SeqInputView::on_m_pushButt_Export_clicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                "./untitled.blo",
-                               tr("BLOSUM Files (*.blo); All files (*.*)"));
+                               tr("BLOSUM Files (*.blo);; All files (*.*)"));
 
     if (fileName.isEmpty()) // no file selected
         return;
@@ -97,7 +103,7 @@ void SeqInputView::on_m_pushButt_Export_clicked()
 void SeqInputView::on_m_pushButt_Import_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open File"), ".", tr("BLOSUM Files (*.blo); All files (*.*)"));
+        tr("Open File"), ".", tr("BLOSUM Files (*.blo);; Test files (*.mbi);; All files (*.*)"));
 
     if (fileName.isEmpty()) // no file selected
         return;
